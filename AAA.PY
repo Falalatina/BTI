@@ -37,3 +37,7 @@ def table_tw(key):
         for j in range(5):
             tabela[i][j] = dodawanie_zn[poz]
             poz+=1
+    return tabela        
+
+tab = [[0 for i in range(5)] for j in range(5)]
+print(tab)

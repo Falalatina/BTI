@@ -30,3 +30,18 @@ def tworze_tabele(key):
             tabela[i][j] = dodawanie_liter[poz]
             poz += 1
     return tabela
+
+
+def rozdzielenie_tych_samych(text):
+    index =0
+    while (index<len(text)):
+        z1 = text[index]
+        if index == len(text) -1:
+            text = text + 'X'
+            index += 2
+            continue
+        z2 = text[index + 1]
+        if z1 ==z2:
+            text = text[:index +1] + "x" + text[index+1:]
+            index += 2
+    return text        
