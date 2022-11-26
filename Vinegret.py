@@ -33,3 +33,4 @@ def dekrypt(tekst, key, alphabet):
 cipher_text = enkrypt(tekst, key, alphabet)
 print(cipher_text)
 print(dekrypt(cipher_text, key, alphabet))
+#uwu
