@@ -17,4 +17,15 @@ def tworze_tabele(key):
         else:
             col +=1    
 
-#wiemy, że ord('A')= 65 a ord('Z')=91 i ord('J') = 74 wiec pomijamy chr(75) = I
+#wiemy, że ord('A')= 65 a ord('Z')=91 i ord('J') = 74 wiec pomijamy do chr(75) = I
+    for znak in range(65,91):
+        if znak == 74:
+            continue
+        if chr(znak) not in dodawanie_liter:
+            dodawanie_liter.append(chr(znak))
+    poz = 0
+    for i in range(5):
+        for j in range(5):
+            tabela[i][j] = dodawanie_liter[poz]
+            poz += 1
+    return tabela
