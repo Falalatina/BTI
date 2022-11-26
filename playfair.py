@@ -23,6 +23,7 @@ def tworze_tabele(key):
             continue
         if chr(znak) not in dodawanie_liter:
             dodawanie_liter.append(chr(znak))
+ #///////////
     poz = 0
     for i in range(5):
         for j in range(5):
