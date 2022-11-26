@@ -42,6 +42,7 @@ def rozdzielenie_tych_samych(text):
             continue
         z2 = text[index + 1]
         if z1 ==z2:
-            text = text[:index +1] + "x" + text[index+1:]
+            #cos tam: index+1 dodaj X od tego miejsca:cos tam
+            text = text[:index +1] + "x" + text[index+1:] #by pomijalo znak na index+1 i dawalo tam X 
             index += 2
     return text        
