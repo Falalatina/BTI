@@ -40,4 +40,4 @@ def table_tw(key):
     return tabela        
 
 tab = [[0 for i in range(5)] for j in range(5)]
-print(tab)
+print(tab[1])

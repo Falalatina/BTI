@@ -46,3 +46,12 @@ def rozdzielenie_tych_samych(text):
             text = text[:index +1] + "x" + text[index+1:] #by pomijalo znak na index+1 i dawalo tam X 
             index += 2
     return text        
+
+#to idzie tak długo aż znajdzie odpowiedni row
+def indexznaku(znak, tabela):
+    for i in range(5):
+        try:
+            index = tabela[i].index(znak)    # tu go szuka
+            return(i,index)
+        except:
+            continue #az znajdzie XD
