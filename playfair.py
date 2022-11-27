@@ -11,11 +11,11 @@ def tworze_tabele(key):
             tabela[row][col] = znak
         else:
             continue    #to nam pomija 1 iteracje
-        if(col==4):
-            col = 0
-            row += 1    
-        else:
-            col +=1    
+    if(col==4):
+        col = 0
+        row += 1    
+    else:
+        col +=1    
 
 #wiemy, że ord('A')= 65 a ord('Z')=91 i ord('J') = 74 wiec pomijamy do chr(75) = I
     for znak in range(65,91):
@@ -55,3 +55,35 @@ def indexznaku(znak, tabela):
             return(i,index)
         except:
             continue #az znajdzie XD
+
+#kodowanie i odkodowanie
+def playfair(key, text, kodowanie=False):
+    inc = 1
+    if kodowanie==False:
+        inc = -1
+        tabela = tworze_tabele(key)
+        text = text.upper()
+        text = text.replace(' ', '')
+        text = rozdzielenie_tych_samych(text)
+        kodowany_text = ''
+    for (z1, z2) in zip(text[::2], text[1::2]):
+        row1,col1 = indexznaku(z1,tabela)
+        row2,col2 = indexznaku(z2, tabela)
+        if row1 ==row2:
+            kodowany_text += tabela[row1][(col1 + inc)%5] + tabela[row2][(col2 + inc)%5] 
+        elif col1==col2:
+            kodowany_text += tabela[(row1 + inc)%5][col1] + tabela[(row2 + inc)%5][row2]   
+        else:
+            kodowany_text += tabela[row1][col1] + tabela[row2][col2]     
+    return kodowany_text
+
+if __name__ =='__main__':
+    print('kodowanie: ')     
+    sekretna = input("podaj sekretna wiadomość: ")  
+    klucz = input("Podaj klucz: ") 
+    print(playfair(klucz, sekretna))
+    print('Odkodowanie: ')
+    odkoduj = input("Podaj kod do odkodowania: ")
+    print(playfair(klucz, odkoduj, False))
+
+#no i nie działa :<<<<<<<<<<
