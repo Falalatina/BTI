@@ -1,89 +1,88 @@
 
 
-def tworze_tabele(key):
+
+def create_matrix(key):
     key = key.upper()
-    tabela =[[0 for i in range(5)] for j in range(5)]
-    dodawanie_liter = []
+    matrix = [[0 for i in range (5)] for j in range(5)]
+    letters_added = []
     row = 0
     col = 0
-    for znak in key:
-        if znak not in dodawanie_liter:
-            tabela[row][col] = znak
-        else:
-            continue    #to nam pomija 1 iteracje
-    if(col==4):
-        col = 0
-        row += 1    
-    else:
-        col +=1    
 
-#wiemy, że ord('A')= 65 a ord('Z')=91 i ord('J') = 74 wiec pomijamy do chr(75) = I
-    for znak in range(65,91):
-        if znak == 74:
+    for letter in key:
+        if letter not in letters_added:
+            matrix[row][col] = letter
+            letters_added.append(letter)
+        else:
             continue
-        if chr(znak) not in dodawanie_liter:
-            dodawanie_liter.append(chr(znak))
- #///////////
-    poz = 0
+        if (col==4):
+            col = 0
+            row += 1
+        else:
+            col += 1
+
+    for letter in range(65,91):
+        if letter==74:
+                continue
+        if chr(letter) not in letters_added: 
+            letters_added.append(chr(letter))
+            
+
+    index = 0
     for i in range(5):
         for j in range(5):
-            tabela[i][j] = dodawanie_liter[poz]
-            poz += 1
-    return tabela
+            matrix[i][j] = letters_added[index]
+            index+=1
+    return matrix
 
 
-def rozdzielenie_tych_samych(text):
-    index =0
-    while (index<len(text)):
-        z1 = text[index]
-        if index == len(text) -1:
-            text = text + 'X'
+def separate_same_letters(message):
+    index = 0
+    while (index<len(message)):
+        l1 = message[index]
+        if index == len(message)-1:
+            message = message + 'X'
             index += 2
             continue
-        z2 = text[index + 1]
-        if z1 ==z2:
-            #cos tam: index+1 dodaj X od tego miejsca:cos tam
-            text = text[:index +1] + "x" + text[index+1:] #by pomijalo znak na index+1 i dawalo tam X 
-            index += 2
-    return text        
+        l2 = message[index+1]
+        if l1==l2:
+            message = message[:index+1] + "X" + message[index+1:]
+        index +=2   
+    return message
 
-#to idzie tak długo aż znajdzie odpowiedni row
-def indexznaku(znak, tabela):
-    for i in range(5):
+def indexOf(letter,matrix):
+    for i in range (5):
         try:
-            index = tabela[i].index(znak)    # tu go szuka
-            return(i,index)
+            index = matrix[i].index(letter)
+            return (i,index)
         except:
-            continue #az znajdzie XD
+            continue
 
-#kodowanie i odkodowanie
-def playfair(key, text, kodowanie=False):
+def playfair(key, message, encrypt=True):
     inc = 1
-    if kodowanie==False:
+    if encrypt==False:
         inc = -1
-        tabela = tworze_tabele(key)
-        text = text.upper()
-        text = text.replace(' ', '')
-        text = rozdzielenie_tych_samych(text)
-        kodowany_text = ''
-    for (z1, z2) in zip(text[::2], text[1::2]):
-        row1,col1 = indexznaku(z1,tabela)
-        row2,col2 = indexznaku(z2, tabela)
-        if row1 ==row2:
-            kodowany_text += tabela[row1][(col1 + inc)%5] + tabela[row2][(col2 + inc)%5] 
+    matrix = create_matrix(key)
+    message = message.upper()
+    message = message.replace(' ','')    
+    message = separate_same_letters(message)
+    cipher_text=''
+    for (l1, l2) in zip(message[0::2], message[1::2]):
+        row1,col1 = indexOf(l1,matrix)
+        row2,col2 = indexOf(l2,matrix)
+        if row1==row2: 
+            cipher_text += matrix[row1][(col1+inc)%5] + matrix[row2][(col2+inc)%5]
         elif col1==col2:
-            kodowany_text += tabela[(row1 + inc)%5][col1] + tabela[(row2 + inc)%5][row2]   
-        else:
-            kodowany_text += tabela[row1][col1] + tabela[row2][col2]     
-    return kodowany_text
+            cipher_text += matrix[(row1+inc)%5][col1] + matrix[(row2+inc)%5][col2]
+        else: 
+            cipher_text += matrix[row1][col2] + matrix[row2][col1]
+    
+    return cipher_text
 
-if __name__ =='__main__':
-    print('kodowanie: ')     
-    sekretna = input("podaj sekretna wiadomość: ")  
-    klucz = input("Podaj klucz: ") 
-    print(playfair(klucz, sekretna))
-    print('Odkodowanie: ')
-    odkoduj = input("Podaj kod do odkodowania: ")
-    print(playfair(klucz, odkoduj, False))
+if __name__=='__main__':
+    
+    print ('Kodowanie:')
+    print ( playfair('mops', 'lubie placki'))    #klucz, tekst
+    print ('Odkodowanie:')
+    print ( playfair('mops', 'UZDGDSUFEHRP', False))
 
-#no i nie działa :<<<<<<<<<<
+
